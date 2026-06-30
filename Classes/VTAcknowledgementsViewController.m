@@ -235,7 +235,10 @@ static const CGFloat VTLabelMargin = 20;
 #pragma mark - Configuration
 
 - (UIFont *)headerFooterFont {
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    // Use the app's preferred text style size but prefer Archivo Narrow family when available.
+    UIFont *preferred = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    UIFont *archivo = [UIFont fontWithName:@"ArchivoNarrow-Regular" size:preferred.pointSize];
+    return archivo ?: preferred;
 }
 
 - (UILabel *)headerFooterLabelWithText:(NSString *)text {
