@@ -50,7 +50,10 @@ const CGFloat VTLeftRightDefaultMargin = 10;
     [super viewDidLoad];
 
     UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
-    textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    // Prefer Archivo Narrow while keeping the system preferred text size for Dynamic Type.
+    UIFont *preferred = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    UIFont *archivo = [UIFont fontWithName:@"ArchivoNarrow-Regular" size:preferred.pointSize];
+    textView.font = archivo ?: preferred;
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     textView.alwaysBounceVertical = YES;
 #if !TARGET_OS_TV

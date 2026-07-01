@@ -235,7 +235,10 @@ static const CGFloat VTLabelMargin = 20;
 #pragma mark - Configuration
 
 - (UIFont *)headerFooterFont {
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    // Use the app's preferred text style size but prefer Archivo Narrow family when available.
+    UIFont *preferred = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    UIFont *archivo = [UIFont fontWithName:@"ArchivoNarrow-Regular" size:preferred.pointSize];
+    return archivo ?: preferred;
 }
 
 - (UILabel *)headerFooterLabelWithText:(NSString *)text {
@@ -351,6 +354,13 @@ static const CGFloat VTLabelMargin = 20;
 
 - (void)configureCell:(UITableViewCell *)cell withAcknowledgement:(VTAcknowledgement *)acknowledgement {
     cell.textLabel.text = acknowledgement.title;
+    // Prefer Archivo Narrow while keeping Dynamic Type sizing.
+    UIFont *preferred = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    UIFont *archivo = [UIFont fontWithName:@"ArchivoNarrow-Regular" size:preferred.pointSize];
+    cell.textLabel.font = archivo ?: preferred;
+    if (@available(iOS 10.0, *)) {
+        cell.textLabel.adjustsFontForContentSizeCategory = YES;
+    }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
