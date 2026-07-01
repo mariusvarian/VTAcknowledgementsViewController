@@ -354,6 +354,13 @@ static const CGFloat VTLabelMargin = 20;
 
 - (void)configureCell:(UITableViewCell *)cell withAcknowledgement:(VTAcknowledgement *)acknowledgement {
     cell.textLabel.text = acknowledgement.title;
+    // Prefer Archivo Narrow while keeping Dynamic Type sizing.
+    UIFont *preferred = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    UIFont *archivo = [UIFont fontWithName:@"ArchivoNarrow-Regular" size:preferred.pointSize];
+    cell.textLabel.font = archivo ?: preferred;
+    if (@available(iOS 10.0, *)) {
+        cell.textLabel.adjustsFontForContentSizeCategory = YES;
+    }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
